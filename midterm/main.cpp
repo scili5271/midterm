@@ -54,8 +54,11 @@ void sele()
     uLCD.text_height(4);
     uLCD.color(RED);
     uLCD.printf("\n%.3f\n",now);
+    while (1)
+    {
     if (now == 1)
     {
+        Aout = 0;
         for (int i = 0; i < 240; i++) {
             if ( i < 80)
             {
@@ -64,13 +67,19 @@ void sele()
             }
             else if (i > 160)
             {
-                Aout = Aout-0.0136;
+                Aout = Aout - 0.0136;
+                ThisThread::sleep_for(1ms);
+            }
+            else
+            {
+                Aout = Aout;
                 ThisThread::sleep_for(1ms);
             }
         }
     }
     else if (now == 0.5)
     {
+        Aout = 0;
         for (int i = 0; i < 240; i++) {
             if ( i < 40)
             {
@@ -82,10 +91,16 @@ void sele()
                 Aout = Aout - 0.02272;
                 ThisThread::sleep_for(1ms);
             }
+            else
+            {
+                Aout = Aout;
+                ThisThread::sleep_for(1ms);
+            }
         }
     }
     else if (now == 0.25)
     {
+        Aout = 0;
         for (int i = 0; i < 240; i++) {
             if ( i < 20)
             {
@@ -97,10 +112,16 @@ void sele()
                 Aout = Aout - 0.04545;
                 ThisThread::sleep_for(1ms);
             }
+            else
+            {
+                Aout = Aout;
+                ThisThread::sleep_for(1ms);
+            }
         }
     }
     else if (now == 0.125)
     {
+        Aout = 0;
         for (int i = 0; i < 240; i++) {
             if ( i < 10)
             {
@@ -112,14 +133,20 @@ void sele()
                 Aout = Aout-0.0909;
                 ThisThread::sleep_for(1ms);
             }
+            else
+            {
+                Aout = Aout;
+                ThisThread::sleep_for(1ms);
+            }
         }
+    }
     }
 }
 
 
 int main()
 {
-
+    Aout = 0;
     t.start(callback(&queue, &EventQueue::dispatch_forever));
 
     up.rise(queue.event(add));
