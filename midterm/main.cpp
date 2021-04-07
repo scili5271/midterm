@@ -4,6 +4,7 @@
 uLCD_4DGL uLCD(D1, D0, D2);
 
 AnalogOut Aout(D7);
+AnalogIn Ain(A3);
 
 InterruptIn up(A2);
 InterruptIn down(A1);
@@ -12,7 +13,10 @@ DigitalOut led(LED1);
 EventQueue queue(32 * EVENTS_EVENT_SIZE);
 
 Thread t;
+
 float now = 1, tmp = 1;
+float ADCdata[128];
+int sample = 128;
 
 void add()
 {
@@ -141,6 +145,17 @@ void sele()
         }
     }
     }
+    for (int i = 0; i < sample; i++)
+    {
+        Aout = Ain;
+        ADCdata[i] = Ain;
+        ThisThread::sleep_for(1000ms/sample);
+    }
+    for (int i = 0; i < sample; i++)
+    {
+        printf("%f\r\n", ADCdata[i]);
+        ThisThread::sleep_for(100ms);
+    }
 }
 
 
@@ -152,5 +167,8 @@ int main()
     up.rise(queue.event(add));
     down.rise(queue.event(sub));
     sel.rise(queue.event(sele));
+
+
+
 
 }
