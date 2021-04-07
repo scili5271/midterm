@@ -12,6 +12,7 @@ InterruptIn sel(A0);
 DigitalOut led(LED1);
 EventQueue queue(32 * EVENTS_EVENT_SIZE);
 
+
 Thread t;
 
 float now = 1, tmp = 1;
@@ -145,17 +146,6 @@ void sele()
         }
     }
     }
-    for (int i = 0; i < sample; i++)
-    {
-        Aout = Ain;
-        ADCdata[i] = Ain;
-        ThisThread::sleep_for(1000ms/sample);
-    }
-    for (int i = 0; i < sample; i++)
-    {
-        printf("%f\r\n", ADCdata[i]);
-        ThisThread::sleep_for(100ms);
-    }
 }
 
 
@@ -167,8 +157,4 @@ int main()
     up.rise(queue.event(add));
     down.rise(queue.event(sub));
     sel.rise(queue.event(sele));
-
-
-
-
 }
